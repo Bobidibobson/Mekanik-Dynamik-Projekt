@@ -38,8 +38,7 @@ def calcmovements(t, u, L1, L2, L, k, m1, m2, g):
     return np.array([u1_dot, u2_dot, u3_dot, u4_dot])
 
 #u_0 = np.array([-np.pi/8, 0, np.pi/6, 0])
-u_0 = np.array([0, 0, np.pi/2, 0])
-
+u_0 = np.array([np.pi/4, 0, np.pi/4, 0])
 
 # Simuleringstid
 t_span = (0,10)
@@ -60,6 +59,15 @@ y1 = -L1*np.cos(theta1)
 x2 = L2*(np.sin(theta2) + 1)
 y2 = -L2*np.cos(theta2)
 
+v1 = L1*sol.y[1]
+v2 = L2*sol.y[3]
+Ek = 1/2*m1*v1**2 + 1/2*m2*v2**2
+Ep = m1*g*(y1) + m2*g*(y2)
+Ef = 1/2*k*(np.sqrt((x2 - x1)**2 + (y2 - y1)**2) - L)**2
+Etot = Ek + Ep + Ef
+
+print(Etot)
+
 # Skapa figur och axlar
 fig=plt.figure()
 ax = plt.axes(xlim = (-(L1+L2), (L1+L2)),ylim = (-3/4*(L1+L2), 3/4*(L1+L2)))
@@ -69,6 +77,7 @@ ax.grid()
 line1, = ax.plot([], [], lw=2, color = 'blue', marker='o', markersize=8)
 line2, = ax.plot([], [], lw=2, color = 'blue', marker='o', markersize=8)
 line3, = ax.plot([], [], lw=2, color = 'red', marker='o', markersize=8)
+
 # Initialisering av linjer för animering
 def init():
     line1.set_data([], []) #Pendel 1
